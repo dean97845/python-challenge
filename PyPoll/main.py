@@ -39,6 +39,23 @@ with open(filename, "r") as poll_infile:
     print("--------------------------------------------")
     print("The winner: " + max(candidate_list.items(), key=operator.itemgetter(1))[0])
     print("--------------------------------------------")
+
+    #write the results to a file
+    filename = os.path.join("./", "results-file.txt")
+    poll_outfile = open(filename, "w")
+
+    poll_outfile.write("--------------------------------------------\n")
+    poll_outfile.write("Total Votes: " + str(total_votes) +"\n")
+    poll_outfile.write("--------------------------------------------\n")
+
+    for result in results:
+        poll_outfile.write(result + "\n")
+
+    poll_outfile.write("--------------------------------------------\n")
+    poll_outfile.write("The winner: " + max(candidate_list.items(), key=operator.itemgetter(1))[0] + "\n")
+    poll_outfile.write("--------------------------------------------\n")
+    poll_outfile.close()
+    
   
     
 
