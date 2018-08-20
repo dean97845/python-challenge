@@ -25,35 +25,35 @@ with open(filename, "r") as poll_infile:
             candidate_list.update({vote[2]:0})
         candidate_list[vote[2]] += 1
 
-    #print total results
-    print("--------------------------------------------")
-    print("Total Votes: " + str(total_votes))
-    print("--------------------------------------------")
+    #format output for printing to screen and file
+    #headers
+    results = []
+    results.append("--------------------------------------------")
+    results.append("Total Votes: " + str(total_votes))
+    results.append("--------------------------------------------")
 
-    #compile the individual line results and print them
-    results = [candidate + ":  " + str(votes) + " Votes ({:.{}f}".format((votes/total_votes) * 100,2) + "%)" for candidate, votes in candidate_list.items()]
+    #compile the individual line results
+    results2 = [candidate + ":  " + str(votes) + " Votes ({:.{}f}".format((votes/total_votes) * 100,2) + "%)" for candidate, votes in candidate_list.items()]
+    for result in results2:
+        results.append(result)
+    
+    # the winner
+    results.append("--------------------------------------------")
+    results.append("The winner: " + max(candidate_list.items(), key=operator.itemgetter(1))[0])
+    results.append("--------------------------------------------")
+
+    # print to screen
     for result in results:
         print(result)
-    
-    #find and print the winner
-    print("--------------------------------------------")
-    print("The winner: " + max(candidate_list.items(), key=operator.itemgetter(1))[0])
-    print("--------------------------------------------")
 
     #write the results to a file
     filename = os.path.join("./", "results-file.txt")
     poll_outfile = open(filename, "w")
 
-    poll_outfile.write("--------------------------------------------\n")
-    poll_outfile.write("Total Votes: " + str(total_votes) +"\n")
-    poll_outfile.write("--------------------------------------------\n")
-
+    #write to the file similar to the terminal output, but adding new line characters
     for result in results:
         poll_outfile.write(result + "\n")
 
-    poll_outfile.write("--------------------------------------------\n")
-    poll_outfile.write("The winner: " + max(candidate_list.items(), key=operator.itemgetter(1))[0] + "\n")
-    poll_outfile.write("--------------------------------------------\n")
     poll_outfile.close()
     
   
